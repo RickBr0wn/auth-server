@@ -18,6 +18,16 @@ app.use(helmet())
 app.use(express.json())
 app.use(cors())
 
+mongoose.connect(
+  process.env.NODE_ENV === 'production'
+    ? process.env.PROD_MONGODB
+    : process.env.MONGODB_URL,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log('Successfully connected to database.')
+  }
+)
+
 app.get('/', (req, res) => {
   res.json({
     message: 'Authentication server.',
